@@ -34,7 +34,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
             _instance = this as T;
             DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoad;
-           
+
         }
         else
         {
@@ -43,4 +43,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
     }
 
     protected abstract void OnSceneLoad(Scene scene, LoadSceneMode mode);
+
+    protected virtual void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoad;
+    }
 }

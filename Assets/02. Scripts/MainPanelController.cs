@@ -1,16 +1,22 @@
 using UnityEngine;
 
+using static Constants;
+
 public class MainPanelController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void OnClickSinglePlayButton()
     {
-        
+        GameManager.Instance.ChangeToGameScene(GameType.SinglePlay);
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClickDualPlayButton()
     {
-        
+        GameManager.Instance.ChangeToGameScene(GameType.DualPlay);
+    }
+
+    public void OnClickSettingsButton()
+    {
+        GameManager.Instance.OpenSettingsPanel();
     }
 }
