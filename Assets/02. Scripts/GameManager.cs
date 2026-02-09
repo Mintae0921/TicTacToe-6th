@@ -5,25 +5,27 @@ using static Constants;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private GameObject settingsPanelPrefab;
-    [SerializeField] private Canvas canvas;
+    private Canvas canvas;
 
     private GameType _gameType;
 
-    
+    private GameLogic Logic;
 
     protected override void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
         canvas = FindFirstObjectByType<Canvas>();
 
-        if (scene.name == "Game")
+        if (scene.name == "02. Game")
         {
             var blockController = FindFirstObjectByType<BlockController>();
-            if (blockController != null )
+            if (blockController != null)
             {
                 blockController.InitBlocks();
             }
-        }
 
+            // GameLogic »ý¼º
+            Logic = new GameLogic(GameType.DualPlay, blockController);
+        }
     }
 
     public void OpenSettingsPanel()

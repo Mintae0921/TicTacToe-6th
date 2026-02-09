@@ -20,6 +20,9 @@ public class Block : MonoBehaviour
         SetMarker(MarkerType.None);
 
         Debug.Log("Block Initialized: " + _blockIndex);
+        
+        //클릭 롤백 설정
+        _onBlockClicked = onBlockClicked;
     }
 
     // 마커 설정
@@ -48,5 +51,8 @@ public class Block : MonoBehaviour
 
         if (EventSystem.current.IsPointerOverGameObject())
             return;
+
+        _onBlockClicked?.Invoke(_blockIndex);
     }
+
 }

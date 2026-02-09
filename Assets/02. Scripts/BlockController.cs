@@ -4,9 +4,9 @@ using UnityEngine.Timeline;
 public class BlockController : MonoBehaviour
 {
     [SerializeField] private Block[] blocks;
-        
+
     public delegate void OnBlockClicked(int index);
-    private OnBlockClicked onBlockClicked;
+    public OnBlockClicked onBlockClicked;
 
     //private void Start()
     //{
@@ -25,9 +25,18 @@ public class BlockController : MonoBehaviour
     }
 
     //특정 블럭에 마커 설정
-    public void PlaceMarker(int blockIndex, Block.MarkerType marker)
+    public void PlaceMarker(int blockIndex, Constants.PlayerType playerType)
     {
-        blocks[blockIndex].SetMarker(marker);
+        switch (playerType)
+        {
+            case Constants.PlayerType.Player1:
+                blocks[blockIndex].SetMarker(Block.MarkerType.O);
+                break;
+            case Constants.PlayerType.Player2:
+                blocks[blockIndex].SetMarker(Block.MarkerType.X);
+                break;
+        }
+
     }
 
 }
