@@ -9,13 +9,20 @@ public class GameManager : Singleton<GameManager>
 
     private GameType _gameType;
 
-    private void Awake()
-    {
-        canvas = FindFirstObjectByType<Canvas>();
-    }
+    
 
     protected override void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
+        canvas = FindFirstObjectByType<Canvas>();
+
+        if (scene.name == "Game")
+        {
+            var blockController = FindFirstObjectByType<BlockController>();
+            if (blockController != null )
+            {
+                blockController.InitBlocks();
+            }
+        }
 
     }
 

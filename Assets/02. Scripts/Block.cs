@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,11 +10,16 @@ public class Block : MonoBehaviour
     public enum MarkerType { None, O, X }
 
     private int _blockIndex;
-   
+
+    public delegate void OnBlockClicked(int index);
+    private OnBlockClicked _onBlockClicked;
     // 블록 초기화
-    public void InitMarker(int blockIndex)
+    public void InitMarker(int blockIndex, OnBlockClicked onBlockClicked)
     {
         _blockIndex = blockIndex;
+        SetMarker(MarkerType.None);
+
+        Debug.Log("Block Initialized: " + _blockIndex);
     }
 
     // 마커 설정
@@ -39,10 +43,10 @@ public class Block : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
+
+        Debug.Log("Block Clicked " + _blockIndex);
+
         if (EventSystem.current.IsPointerOverGameObject())
             return;
-
-
-
     }
 }
