@@ -12,6 +12,13 @@ public class GameLogic
 
     private BaseState currentState;
 
+    public enum GameResult { None, Win, Lose, Draw }
+
+    // 보드 정보
+    public Constants.PlayerType[,] Board {  get { return board; } }
+
+
+
     public GameLogic(GameType gameType, BlockController blockController)
     {
         controller = blockController;
@@ -26,7 +33,7 @@ public class GameLogic
         {
             case GameType.SinglePlay:
                 playerStateA = new PlayerState(true);
-                playerStateB = new AIState();
+                playerStateB = new AIState(false);
 
                 SetState(playerStateA);
                 break;
@@ -59,7 +66,7 @@ public class GameLogic
         controller.PlaceMarker(index, playerType);
         board[row, col] = playerType;
 
-        return false;
+        return true;
     }
 
     public void ChangeGameState()
@@ -74,13 +81,42 @@ public class GameLogic
         }
     }
 
-    public void CheckGameResult()
+    public GameResult CheckGameResult()
     {
-        // 승리 조건 확인 로직 구현(생략)
+        if (TicTacToeAI.CheckGameWin(PlayerType.Player1, board))
+            return GameResult.Win;
+
+        if (TicTacToeAI.CheckGameWin(PlayerType.Player2, board))
+            return GameResult.Lose;
+
+        if (TicTacToeAI.CheckGameDraw(board))
+            return GameResult.Draw;
+
+        return GameResult.None;
     }
 
-    public bool CheckGameWin(Constants.PlayerType playerType, Constants.PlayerType[,] board)
+
+    public void EndGame(GameResult gameResult)
     {
-        return false;
+        string resultStr = "";
+        switch (gameResult)
+        {
+            case GameResult.Win:
+                resultStr = "Player1 승리!";
+                break;
+            case GameResult.Lose:
+                resultStr = "Player2 승리!";
+                break;
+            case GameResult.Draw:
+                resultStr = "무승부";
+                break;
+        }
+
+        GameManager.Instance.OpenConfirmPanel(resultStr, () =>
+        {
+            GameManager.Instance.ChangeToMainScene();
+        });
+
     }
+
 }

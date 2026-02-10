@@ -13,9 +13,21 @@ public abstract class BaseState
     public void ProcessMove(GameLogic gameLogic, int index, Constants.PlayerType playerType)
     {
         // 특정 위치에 마커 표시
-        gameLogic.PlaceMarker(index, playerType);
+        if (gameLogic.PlaceMarker(index, playerType))
+        {
+            // 게임 승패 확인
+            var gameResult = gameLogic.CheckGameResult();
+            if (gameResult == GameLogic.GameResult.None)
+            {
+                // 턴 전환
+                HandleNextTurn(gameLogic);
+            }
+            else
+            {
+                gameLogic.EndGame(gameResult);
+                // 게임오버 처리
+            }
 
-        // 턴 전환
-        HandleNextTurn(gameLogic);
+        }
     }
 }

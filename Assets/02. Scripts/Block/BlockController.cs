@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Timeline;
 
 public class BlockController : MonoBehaviour
 {
@@ -7,11 +6,6 @@ public class BlockController : MonoBehaviour
 
     public delegate void OnBlockClicked(int index);
     public OnBlockClicked onBlockClicked;
-
-    //private void Start()
-    //{
-    //    InitBlocks();
-    //}
 
     public void InitBlocks()
     {
@@ -27,6 +21,8 @@ public class BlockController : MonoBehaviour
     //특정 블럭에 마커 설정
     public void PlaceMarker(int blockIndex, Constants.PlayerType playerType)
     {
+        Debug.Log($"PlaceMarker 호출됨: Index {blockIndex}, Player {playerType}");
+
         switch (playerType)
         {
             case Constants.PlayerType.Player1:

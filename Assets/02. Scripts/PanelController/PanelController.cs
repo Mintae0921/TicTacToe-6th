@@ -1,9 +1,12 @@
 using DG.Tweening;
+using System.Transactions;
 using UnityEngine;
 
 public class PanelController : MonoBehaviour
 {
     [SerializeField] private RectTransform panelTransform;
+
+    public delegate void PanelControllerHideDelegate();
 
     private CanvasGroup canvasGroup;
 
@@ -22,11 +25,12 @@ public class PanelController : MonoBehaviour
         panelTransform.DOScale(1, 0.3f).SetEase(Ease.OutBack);
     }
 
-    public void Hide()
+    public void Hide(PanelControllerHideDelegate onComplete = null)
     {
         canvasGroup.DOFade(0, 0.3f).SetEase(Ease.Linear);
         panelTransform.DOScale(0, 0.3f).SetEase(Ease.InBack).OnComplete(() =>
         {
+            onComplete?.Invoke();
             Destroy(gameObject);
         });
 

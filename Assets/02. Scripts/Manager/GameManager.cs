@@ -5,9 +5,13 @@ using static Constants;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private GameObject settingsPanelPrefab;
+    [SerializeField] private GameObject ConfirmPanelPrefab;
+
     private Canvas canvas;
 
     private GameType _gameType;
+
+    private GamePanelController _gamePanelController;
 
     private GameLogic Logic;
 
@@ -23,9 +27,16 @@ public class GameManager : Singleton<GameManager>
                 blockController.InitBlocks();
             }
 
+            _gamePanelController = FindFirstObjectByType<GamePanelController>();
+
             // GameLogic »ý¼º
-            Logic = new GameLogic(GameType.DualPlay, blockController);
+            Logic = new GameLogic(_gameType, blockController);
         }
+    }
+
+    public void SetGameTurn(Constants.PlayerType playerTurnType)
+    {
+        _gamePanelController.SetPlayerTurnPanel(playerTurnType);
     }
 
     public void OpenSettingsPanel()
@@ -34,10 +45,18 @@ public class GameManager : Singleton<GameManager>
         settingsPanelObject.GetComponent<SettingsPanelController>().Show();
     }
 
+    public void OpenConfirmPanel(string message, ConfirmPanelController.OnConfirmButtonClicked onConfirmButtonClicked)
+    {
+        var confirmPanelObject = Instantiate(ConfirmPanelPrefab, canvas.transform);
+        confirmPanelObject.GetComponent<ConfirmPanelController>().Show(message, onConfirmButtonClicked);
+    }
+
     public void ChangeToGameScene(GameType gameType)
     {
         _gameType = gameType;
         SceneManager.LoadScene("02. Game");
+
+
     }
 
     public void ChangeToMainScene()

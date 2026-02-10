@@ -28,12 +28,14 @@ public class Block : MonoBehaviour
     // 마커 설정
     public void SetMarker(MarkerType markerType)
     {
+        Debug.Log($"Block SetMarker: {markerType}");
         switch (markerType)
         {
             case MarkerType.O:
                 markerSpriteRenderer.sprite = oSprite;
                 break;
             case MarkerType.X:
+                if (xSprite == null) Debug.LogError("X Sprite가 할당되지 않았습니다!");
                 markerSpriteRenderer.sprite = xSprite;
                 break;
             case MarkerType.None:

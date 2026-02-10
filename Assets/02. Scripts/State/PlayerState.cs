@@ -25,6 +25,9 @@ public class PlayerState : BaseState
         {
             HandleMove(gameLogic, blockIndex);
         };
+
+        // UI 업데이트
+        GameManager.Instance.SetGameTurn(playerType);
     }
 
     public override void OnExit(GameLogic gameLogic)
